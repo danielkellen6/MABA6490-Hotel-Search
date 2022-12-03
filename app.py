@@ -37,7 +37,7 @@ with header:
     st.markdown("As Will Smith so eloquently stated: *Welcome to Miami - Bienvenidos a Miami*")
 
 
-query = st.text_input("What are you looking for in a hotel?",'   ')
+query = st.text_input("What are you looking for in a hotel?", placeholder = 'Enter your search here')
 top_k = min(1, len(corpus))
 query_embedding = embedder.encode(query, convert_to_tensor=True)
 
