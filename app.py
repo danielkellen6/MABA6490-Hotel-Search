@@ -11,7 +11,9 @@ import spacy
 import pickle as pkl
 from sentence_transformers import SentenceTransformer, util
 import torch
+from PIL import Image
 
+st.image('miami.jpg')
 
 header = st.container()
 dataset = st.container()
@@ -34,8 +36,6 @@ embedder = load_model()
 with header:
     st.title("Miami Hotel Search")
     st.markdown("As Will Smith so eloquently stated: *Welcome to Miami - Bienvenidos a Miami*")
-    st.markdown("Use this to search to find the best Miami hotel to fit your needs.")
-
 # with search:
 
 # embedder = SentenceTransformer('all-MiniLM-L6-v2')
