@@ -39,7 +39,7 @@ with header:
 # with search:
 
 # embedder = SentenceTransformer('all-MiniLM-L6-v2')
-query = st.text_input("What are you looking for in a hotel?",'Search')
+query = st.text_input("What are you looking for in a hotel?",'   ')
 
 # query_embeddings = embedder.encode(queries,show_progress_bar=False)
 top_k = min(1, len(corpus))
