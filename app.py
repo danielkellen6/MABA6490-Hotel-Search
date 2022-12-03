@@ -57,7 +57,7 @@ for score, idx in zip(top_results[0], top_results[1]):
     st.header("The best hotel for your stay: ")
     st.write(Hotel)
     st.header("What other guests had to say:")
-    st.write(Summary)
+    st.markdown(Summary)
 
 
 
