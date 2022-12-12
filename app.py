@@ -11,6 +11,7 @@ import spacy
 import pickle as pkl
 from sentence_transformers import SentenceTransformer, util
 import torch
+from googlesearch import search
 
 
 st.image('miami.jpg')
@@ -35,30 +36,39 @@ embedder = load_model()
 with header:
     st.title("Miami Hotel Search")
     st.markdown("As Will Smith so eloquently stated: *Welcome to Miami - Bienvenidos a Miami*")
-
-
+# query = ''
 query = st.text_input("What are you looking for in a hotel?", placeholder = 'Enter your search here')
-top_k = min(1, len(corpus))
-query_embedding = embedder.encode(query, convert_to_tensor=True)
 
-# We use cosine-similarity and torch.topk to find the highest 5 scores
-cos_scores = util.pytorch_cos_sim(query_embedding, corpus_embeddings)[0]
-top_results = torch.topk(cos_scores, k=top_k)
-
-for score, idx in zip(top_results[0], top_results[1]):
-    row_dict = df.loc[df['review_body']== corpus[idx]]
-    Hotel = " ".join(row_dict['hotelName'])
-    Summary = " ".join(row_dict['Review_Summary'])
+if query == '':
+    st.write("Please Enter Search")
+    Hotel = " "
+    Summary = " "
 
     st.header("The best hotel for your stay: ")
     st.write(Hotel)
     st.header("What other guests had to say:")
     st.write(Summary)
 
+else:
 
+    top_k = min(1, len(corpus))
+    query_embedding = embedder.encode(query, convert_to_tensor=True)
 
-from googlesearch import search
-for url in search(Hotel, stop=1):
-    url_link = url
-st.header("Book your stay today!")
-st.write("[Click here to be redirected to the Hotel Webpage](%s)" % url_link)
+    # We use cosine-similarity and torch.topk to find the highest 5 scores
+    cos_scores = util.pytorch_cos_sim(query_embedding, corpus_embeddings)[0]
+    top_results = torch.topk(cos_scores, k=top_k)
+
+    for score, idx in zip(top_results[0], top_results[1]):
+        row_dict = df.loc[df['review_body']== corpus[idx]]
+        Hotel = " ".join(row_dict['hotelName'])
+        Summary = " ".join(row_dict['Review_Summary'])
+
+        st.header("The best hotel for your stay: ")
+        st.write(Hotel)
+        st.header("What other guests had to say:")
+        st.write(Summary)
+
+    for url in search(Hotel, stop=1):
+        url_link = url
+    st.header("Book your stay today!")
+    st.write("[Click here to be redirected to the Hotel Webpage](%s)" % url_link)
